@@ -1,9 +1,12 @@
 import express from "express"
 import dotenv from "dotenv"
 import authRoutes from "./routes/user/authRoutes.js"
+import { connectDB } from "./config/database.js"
 dotenv.config()
 
 let app = express()
+
+connectDB()
 
 app.use(express.static("public"))
 app.use(express.urlencoded({

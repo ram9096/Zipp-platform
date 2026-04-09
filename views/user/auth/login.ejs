@@ -177,15 +177,61 @@
                 </div>
             </form>
 
+            <form class="space-y-5 hidden" id="register-form">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-2">Name</label>
+                    <input type="text" id="reg-name"
+                        class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 text-sm text-gray-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-2">Email Address</label>
+                    <input type="email" id="reg-email"
+                        class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 text-sm text-gray-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-2">Password</label>
+                    <input type="password" id="reg-password"
+                        class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 text-sm text-gray-300">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit"
+                        class="w-full bg-[#1fbc55] hover:bg-green-600 text-black font-semibold rounded-xl py-3.5">
+                        Register
+                    </button>
+                </div>
+            </form>
+
             <div class="text-center mt-6">
-                <p class="text-xs text-gray-500">Do you have an account ? <a href="#"
-                        class="text-white hover:underline ml-1 font-medium">Sign up</a></p>
+                <p class="text-xs text-gray-500">Do you have an account ? <a href="#" id="toggle-register"class="text-white hover:underline ml-1 font-medium">Sign up</a></p>
             </div>
         </div>
     </div>
 </body>
 
 <script>
+
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const toggleBtn = document.getElementById("toggle-register");
+
+    // TOGGLE THE REGISTER FORM AND LOGIN FORM
+    
+    toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        if (loginForm.classList.contains("hidden")) {
+            loginForm.classList.remove("hidden");
+            registerForm.classList.add("hidden");
+            toggleBtn.innerText = "Sign up";
+        } else {
+            loginForm.classList.add("hidden");
+            registerForm.classList.remove("hidden");
+            toggleBtn.innerText = "Login";
+        }
+    });
 
     //LOGIN FORM FOR ZIPP
 
@@ -199,7 +245,7 @@
         }
         
         try{
-
+            showSuccess("നമസ്കാരം 🙏")
         }catch(e){
             showError("Something went wrong. Try again.")
             console.error("\n\n Unexpected error occure on Zipp!!! \n\n",e)
