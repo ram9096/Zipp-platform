@@ -2,10 +2,11 @@
   "name": "uber",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "worker": "nodemon workers/otpWorker.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bullmq": "^5.75.2",
     "dotenv": "^17.4.1",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
@@ -21,8 +23,10 @@
     "izitoast": "^1.4.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.4.1",
+    "nodemailer": "^8.0.5",
     "nodemon": "^3.1.14",
     "redis": "^5.11.0",
-    "winston": "^3.19.0"
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
   }
 }

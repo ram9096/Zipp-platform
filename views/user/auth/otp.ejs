@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism setup */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            outline: none;
+        }
+
+        /* Prevent autofill style changes */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#57A507]">
+    <!-- Background Gradient -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#93E326_0%,_#65B60A_45%,_#3A8302_100%)]"></div>
+
+    <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center mt-[-40px]">
+        <!-- Title area -->
+        <div class="text-center mb-6">
+            <h1 class="text-white text-[42px] leading-tight font-medium tracking-tight">Verify the</h1>
+            <h2 class="text-white text-[52px] leading-tight font-bold tracking-tight">shared OTP</h2>
+        </div>
+
+        <!-- Description -->
+        <p class="text-center text-white/90 text-[15px] font-medium leading-relaxed mb-10">
+            we have shared a 4-digit otp to your registered<br>
+            mobile number +91 9895261274
+        </p>
+
+        <!-- OTP Input fields -->
+        <div class="flex items-center justify-center gap-4 mb-8 w-full" id="otp-container">
+            <input type="text" maxlength="1"  class="glass-input w-[85px] h-[140px] rounded-[45px] text-center text-[44px] font-semibold text-white transition-all duration-300">
+            <input type="text" maxlength="1"  class="glass-input w-[85px] h-[140px] rounded-[45px] text-center text-[44px] font-semibold text-white transition-all duration-300">
+            <input type="text" maxlength="1"  class="glass-input w-[85px] h-[140px] rounded-[45px] text-center text-[44px] font-semibold text-white transition-all duration-300">
+            <input type="text" maxlength="1"  class="glass-input w-[85px] h-[140px] rounded-[45px] text-center text-[44px] font-semibold text-white transition-all duration-300">
+        </div>
+
+        <!-- Success Match Text -->
+        <div class="flex items-center justify-center gap-2 mb-16">
+            <div class="w-[20px] h-[20px] rounded-full bg-[#1BD171] flex items-center justify-center border border-[#1BD171]/20 shadow-sm">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <span class="text-white text-[14px] font-medium tracking-wide">Passcode matched</span>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="absolute bottom-12 left-0 w-full text-center z-10 flex flex-col gap-3">
+        <button class="text-white/70 hover:text-white text-[13px] font-medium transition-colors cursor-pointer bg-transparent border-none">
+            didn't receive code? Click to Resend - 00:12
+        </button>
+        <button class="text-white/50 hover:text-white/80 text-[13px] font-medium transition-colors cursor-pointer bg-transparent border-none">
+            Go back to Sign in
+        </button>
+    </div>
+
+    <!-- Simple Interactivity for OTP Inputs -->
+    <script>
+        const inputs = document.querySelectorAll('#otp-container input');
+        
+        inputs.forEach((input, index) => {
+            // Auto Select value on focus for quicker editing
+            input.addEventListener('focus', () => {
+                input.select();
+            });
+
+            input.addEventListener('input', (e) => {
+                // Focus next input when value is entered
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                // Move back when backspace is pressed on empty input
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

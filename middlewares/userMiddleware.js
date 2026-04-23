@@ -3,6 +3,7 @@ import { logger } from "../utils/logger"
 
 export const authMiddleware = (req,res,next)=>{
     try{
+        
         //TOKEN CHECKING
         const token = req.cookies.accessToken
 

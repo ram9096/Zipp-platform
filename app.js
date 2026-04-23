@@ -17,6 +17,7 @@ app.use(express.json())
 app.set("view engine","ejs")
 
 app.use('/auth',authRoutes)
+
 app.listen(process.env.PORT,()=>{
     console.log(`SERVER STARTING PORT NUMBER ${process.env.PORT} ...`)
 })

@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
     <script src="/js/toast.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/zod@3.23.8/lib/index.umd.min.js"></script>
     <style>
         body {
             background-color: #0b0c10;
@@ -42,7 +43,7 @@
         .role-card:hover::before { opacity: 1; }
         .role-card:hover { border-color: rgba(31,188,85,0.4); }
         .role-card.selected {
-            border-color: #1fbc55;
+            border-color: #57A507;
             background: #0f1f14;
             box-shadow: 0 0 20px rgba(31,188,85,0.15);
         }
@@ -65,12 +66,12 @@
     </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-6">
+<body class="min-h-screen flex items-center justify-center p-6 ">
     <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
 
         <!-- Left Panel -->
         <div class="rounded-[2.5rem] p-10 flex flex-col justify-center relative overflow-hidden h-full min-h-[600px]"
-            style="background: radial-gradient(ellipse at 0% 0%, #1a5c33 0%, #0b0c10 55%);">
+            style="background: radial-gradient(ellipse at 0% 0%,#57A507 0%, #0b0c10 55%);">
 
             <!-- Decorative rings -->
             <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full border border-green-500/10"></div>
@@ -304,11 +305,9 @@
                         <input type="password" id="reg-password" placeholder="••••••••"
                             class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 transition text-sm text-gray-300">
                     </div>
-
-                    <!-- Driver-only field -->
-                    <div id="driver-field" class="hidden">
-                        <label class="block text-xs font-medium text-gray-300 mb-2">Vehicle / License No.</label>
-                        <input type="text" id="reg-vehicle" placeholder="e.g. KL-07 AB 1234"
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-2">Phone</label>
+                        <input type="number" id="reg-phone" placeholder="9846099985"
                             class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 transition text-sm text-gray-300">
                     </div>
 
@@ -331,6 +330,8 @@
 </body>
 
 <script>
+    const {z} = window.Zod 
+
     let selectedRole = null;
 
     // ── View switcher ──────────────────────────────────────────
@@ -359,7 +360,7 @@
     function continueToRegister() {
         if (!selectedRole) return;
         document.getElementById('role-label').textContent = selectedRole === 'rider' ? '🧍 Rider' : '🚗 Driver';
-        document.getElementById('driver-field').classList.toggle('hidden', selectedRole !== 'driver');
+        
         showView('register');
     }
 
@@ -378,19 +379,80 @@
             showError("Invalid email or password")
             return;
         }
-        showSuccess("logged in buddy")
+        showSuccess("no worries buddy")
     });
 
+    const registerSchema = z.object({
+        name: z.string().min(3,"Name must be at least 3 characters"),
+        email:z.string().email("Enter a valid email"),
+        password:z.string().min(6,"Password must be at least 6 characters"),
+        phone: z.string().regex(/^[6-9]\d{9}$/, "Invalid phone number")
+    })
+
+    let userLocation = null
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+        },
+        (error) => {
+            showError("Location access denied")
+        }
+    )
     // ── REGISTER ───────────────────────────────────────────────
-    document.getElementById('register-form').addEventListener('submit', function (e) {
+    document.getElementById('register-form').addEventListener('submit', async function (e) {
         e.preventDefault();
-        const name = document.getElementById('reg-name').value.trim();
-        const email = document.getElementById('reg-email').value.trim();
-        const password = document.getElementById('reg-password').value.trim();
+        const data = {
+            name : document.getElementById('reg-name').value.trim(),
+            email : document.getElementById('reg-email').value.trim(),
+            password : document.getElementById('reg-password').value.trim(),
+            phone : document.getElementById('reg-phone').value.trim(),
+        }
 
+        const frontEndValidation = registerSchema.safeParse(data)
 
-        showSuccess("നമസ്കാരം 🙏")
+        if(!frontEndValidation.success){
+
+            const formattedMessage = Object.values(frontEndValidation.error.flatten().fieldErrors)
+                .flat()
+                .join(", ");
+            showError(formattedMessage)
+            return;
+        }
+
+        try{
+            
+            const res = await fetch('/auth/register',{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    data:data,
+                    role:selectedRole,
+                    location:userLocation
+                })
+            })
+            
+            const result = await res.json()
+
+            if(!result.success){
+                showError(result.message)
+                return;
+            }
+
+            showSuccess("നമസ്കാരം 🙏")
+            window.location.href = result.redirect
+
+        }catch(err){
+
+            showError(err.message)
+        }
     });
+
+    
 </script>
 
 </html>

@@ -11,7 +11,7 @@ iziToast.settings({
 window.showError = function (message) {
   iziToast.error({
     title: "Login Failed",
-    message: message,
+    message: message||"Something went wrong",
     position: "topRight",
     timeout: 3000,
 
