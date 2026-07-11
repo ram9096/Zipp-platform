@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zipp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* The main complex gradient */
+        .bg-gradient-complex {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                /* White fade at the bottom */
+                linear-gradient(to bottom, transparent 40%, rgba(255, 255, 255, 0.8) 65%, #ffffff 80%),
+                /* Top left warm dark glow */
+                radial-gradient(circle at 0% 0%, rgba(38, 20, 15, 0.9) 0%, transparent 40%),
+                /* Top right dark glow */
+                radial-gradient(circle at 100% 0%, rgba(20, 25, 35, 0.9) 0%, transparent 40%),
+                /* Main blue diagonal gradient */
+                linear-gradient(135deg, #1f2533 0%, #4a678a 40%, #8ba8c4 70%);
+        }
+
+        .logo-box {
+            background-color: #fcfcfc;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02);
+        }
+
+        .logo-box:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sub-text {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* Hide scrollbar for logo container */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Chamfered Badges */
+        .chamfer-outline {
+            background-color: currentColor;
+            padding: 1px;
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+            display: inline-flex;
+        }
+        .chamfer-inner {
+            clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+            width: 100%;
+            height: 100%;
+            padding: 0.35rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col selection:bg-blue-200 selection:text-blue-900">
+    <div class="bg-gradient-complex"></div>
+
+    <!-- Navigation -->
+    <nav class="w-full flex justify-between items-center px-6 md:px-12 py-8 z-10">
+        <div class="text-lg md:text-xl font-bold tracking-tight flex items-center">
+            Zipp<span class="font-medium opacity-90"> RIDER.</span>
+        </div>
+        <!-- <div class="hidden md:flex space-x-6 text-xs md:text-sm font-medium text-gray-300">
+            <a href="#" class="hover:text-white transition-colors">Work</a>
+            <a href="#" class="hover:text-white transition-colors">Approach</a>
+            <a href="#" class="hover:text-white transition-colors">Services</a>
+            <a href="#" class="hover:text-white transition-colors">News</a>
+            <a href="#" class="hover:text-white transition-colors flex items-center gap-4">
+                About
+                <span class="w-2 h-0.5 bg-gray-400"></span>
+            </a>
+        </div> -->
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col justify-center px-6 md:px-12 w-full max-w-6xl z-10 pt-10 md:pt-16 lg:pt-24">
+        <h1
+            class="font-serif text-[2rem] sm:text-[2.5rem] md:text-5xl lg:text-[4rem] text-white leading-[1.1] max-w-4xl tracking-tight mb-6">
+            Zipp is a subscription-based ride-hailing platform built for the way people move today.
+        </h1>
+        <h2
+            class="font-serif text-[1.5rem] sm:text-[1.75rem] md:text-3xl lg:text-[2.5rem] sub-text leading-[1.2] max-w-4xl tracking-tight mb-12">
+            We provide seamless, reliable, and affordable transportation through smart subscription plans designed for
+            everyday commuters.
+
+
+        </h2>
+
+        <div>
+            <button
+                class="bg-black/10 hover:bg-black/20 backdrop-blur-md border border-white/10 text-white text-sm font-medium py-2.5 px-6 rounded-full flex items-center gap-3 transition-all duration-300 group">
+                Let's Zipp
+                <span
+                    class="text-lg leading-none transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Brand Logos -->
+    <section class="w-full px-6 md:px-12 pb-16 pt-24 md:pt-32 mt-auto z-10">
+        <p class="text-gray-900 text-base md:text-lg font-medium mb-8 tracking-tight">Our trusted partners, from bold
+            startups to global icons</p>
+
+        <!-- Logos Container -->
+        <div class="flex flex-nowrap overflow-x-auto gap-4 md:gap-5 pb-4 scrollbar-hide items-center w-full">
+            <!-- ElevenLabs -->
+            <div
+                class="logo-box h-20 md:h-24 w-40 md:w-48 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <span class="font-semibold text-gray-800 text-lg md:text-xl tracking-tight">ReboundLabs.</span>
+            </div>
+
+            <!-- zid -->
+            <div
+                class="logo-box h-20 md:h-24 w-40 md:w-48 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <div class="flex items-center gap-2 text-gray-800">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                        <circle cx="6" cy="12" r="2" />
+                        <circle cx="18" cy="12" r="2" />
+                        <circle cx="12" cy="6" r="2" />
+                        <circle cx="12" cy="18" r="2" />
+                    </svg>
+                    <span class="font-bold text-lg md:text-xl tracking-tight">ResolvelQ <span
+                            class="font-normal text-base md:text-lg ml-1">رد</span></span>
+                </div>
+            </div>
+
+            <!-- Sylvera -->
+            <div
+                class="logo-box h-20 md:h-24 w-40 md:w-48 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <div class="flex items-center gap-2 text-gray-800">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    <span class="font-medium text-lg md:text-xl tracking-tight">Sylvera</span>
+                </div>
+            </div>
+
+            <!-- etched -->
+            <div
+                class="logo-box h-20 md:h-24 w-40 md:w-48 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <div class="flex items-center gap-2 text-gray-800">
+                    <div class="w-4 h-4 md:w-5 md:h-5 bg-gray-700 rounded-sm"></div>
+                    <span class="font-medium text-lg md:text-xl tracking-tight">etched</span>
+                </div>
+            </div>
+
+            <!-- KNOTEL -->
+            <div
+                class="logo-box h-20 md:h-24 w-40 md:w-48 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <span class="font-bold text-gray-900 tracking-widest text-lg md:text-xl">KNOTEL</span>
+            </div>
+
+            <!-- A -->
+            <div
+                class="logo-box h-20 md:h-24 w-28 md:w-32 flex items-center justify-center rounded-2xl flex-shrink-0 cursor-pointer">
+                <span class="font-bold text-gray-900 text-2xl md:text-3xl font-serif">A</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="w-full flex flex-col font-sans z-10 relative mt-16 md:mt-24">
+        <!-- Row 1 -->
+        <div class="w-full bg-[#36475E] text-white py-6 md:py-10 px-6 md:px-12 flex items-center justify-between">
+            <div class="flex items-center gap-6 md:gap-8 w-full max-w-7xl mx-auto ml-0 md:ml-[5%]">
+                <div class="flex items-start">
+                    <span class="text-[5rem] md:text-[8rem] font-normal leading-none tracking-tighter">01</span>
+                    <span class="text-[2.5rem] md:text-[4rem] font-medium leading-none mt-1 md:mt-2">+</span>
+                </div>
+                <div class="text-[13px] md:text-[15px] opacity-80 w-[140px] md:w-[160px] leading-tight">
+                    years of secure & innovative crypto trading
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Row 2 -->
+        <div class="w-full bg-[#261B1C] text-white py-6 md:py-10 px-6 md:px-12 flex items-center justify-between">
+            <div class="flex items-center gap-6 md:gap-8 w-full max-w-7xl mx-auto ml-12 md:ml-[22%]">
+                <div class="flex items-start">
+                    <span class="text-[5rem] md:text-[8rem] font-normal leading-none tracking-tighter">48</span>
+                    <span class="text-[2.5rem] md:text-[4rem] font-medium leading-none mt-1 md:mt-2">+</span>
+                </div>
+                <div class="text-[13px] md:text-[15px] opacity-90 w-[150px] md:w-[180px] leading-tight">
+                    experts dedicated blockchain & financial professionals.
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Row 3 -->
+        <div class="w-full bg-white text-black py-6 md:py-10 px-6 md:px-12 flex items-center justify-between">
+            <div class="flex items-center gap-6 md:gap-8 w-full max-w-7xl mx-auto ml-24 md:ml-[38%]">
+                <div class="flex items-start">
+                    <span class="text-[5rem] md:text-[8rem] font-normal leading-none tracking-tighter">73</span>
+                    <span class="text-[2.5rem] md:text-[4rem] font-medium leading-none mt-1 md:mt-2">+</span>
+                </div>
+                <div class="text-[13px] md:text-[15px] opacity-90 w-[150px] md:w-[180px] leading-tight">
+                    markets across 9 countries & 8 asset categories.
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    
+</body>
+
+</html>

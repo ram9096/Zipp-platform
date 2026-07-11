@@ -8,3 +8,11 @@ export const generateToken = (user)=>{
         {expiresIn:"1d"}        
     )
 }
+
+export const generateOtpToken = (email)=>{
+    return jwt.sign(
+        {email:email},
+        process.env.JWT_SECRET,
+        {expiresIn:"5m"}        
+    )
+}

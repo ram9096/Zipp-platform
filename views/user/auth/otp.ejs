@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify OTP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+    <script src="/js/toast.js"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for modern typography -->
@@ -59,8 +62,8 @@
 
         <!-- Description -->
         <p class="text-center text-white/90 text-[15px] font-medium leading-relaxed mb-10">
-            we have shared a 4-digit otp to your registered<br>
-            mobile number +91 9895261274
+            we have shared a 4-digit otp to your entered<br>
+            email id
         </p>
 
         <!-- OTP Input fields -->
@@ -73,19 +76,15 @@
 
         <!-- Success Match Text -->
         <div class="flex items-center justify-center gap-2 mb-16">
-            <div class="w-[20px] h-[20px] rounded-full bg-[#1BD171] flex items-center justify-center border border-[#1BD171]/20 shadow-sm">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-            </div>
-            <span class="text-white text-[14px] font-medium tracking-wide">Passcode matched</span>
+            
+            <span class="text-white text-[14px] font-medium tracking-wide">Enter passcode</span>
         </div>
     </div>
 
     <!-- Bottom Actions -->
     <div class="absolute bottom-12 left-0 w-full text-center z-10 flex flex-col gap-3">
-        <button class="text-white/70 hover:text-white text-[13px] font-medium transition-colors cursor-pointer bg-transparent border-none">
-            didn't receive code? Click to Resend - 00:12
+        <button id="resendBtn" class="text-white/70 hover:text-white text-[13px] font-medium transition-colors cursor-pointer bg-transparent border-none">
+            didn't receive code? Click to Resend - <span id="timer">00:30</span>
         </button>
         <button class="text-white/50 hover:text-white/80 text-[13px] font-medium transition-colors cursor-pointer bg-transparent border-none">
             Go back to Sign in
@@ -94,6 +93,72 @@
 
     <!-- Simple Interactivity for OTP Inputs -->
     <script>
+        showSuccess("Otp will be shared soon..")
+        const timerElement = document.getElementById('timer');
+        const resendBtn = document.getElementById('resendBtn');
+
+        let timeLeft = 30; // seconds
+
+        const formatTime = (time) => {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        };
+
+        const countdown = () => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerElement.textContent = "00:00";
+                resendBtn.textContent = "Click to Resend otp";
+                resendBtn.disabled = false;
+                return;
+            }
+
+            timerElement.textContent = formatTime(timeLeft);
+            timeLeft--;
+        };
+
+        // Disable button initially
+        resendBtn.disabled = true;
+
+
+        const getOtpValue = () => {
+            return Array.from(inputs).map(input => input.value).join('');
+        };
+
+        const verifyOtpRequest = async (otp)=>{
+
+            try{
+                const token = sessionStorage.getItem("token")
+
+                const request = await fetch("/auth/otp",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        token,
+                        otp
+                    })
+                })
+
+                const result = await request.json()
+
+                if(!result.success){
+                    showError(result.message)
+                    return;
+                }
+
+                window.location.href = result.redirect
+
+            }catch(err){
+
+                showError(err.message)
+
+            }
+        }
+
+        const timerInterval = setInterval(countdown, 1000);
         const inputs = document.querySelectorAll('#otp-container input');
         
         inputs.forEach((input, index) => {
@@ -107,6 +172,12 @@
                 if (e.target.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
+                
+                const otp = getOtpValue()
+                if(otp.length == inputs.length&& !otp.includes(" ")){
+                    
+                    verifyOtpRequest(otp)
+                }
             });
             
             input.addEventListener('keydown', (e) => {
@@ -116,6 +187,8 @@
                 }
             });
         });
+
+        
     </script>
 </body>
 </html>

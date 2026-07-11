@@ -20,7 +20,20 @@
         .glow-bg {
             background: radial-gradient(circle at top left, #1fbc55 0%, #0b0c10 60%);
         }
-
+        .bg-gradient-complex {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                /* White fade at the bottom */
+                linear-gradient(to bottom, transparent 40%, rgba(255, 255, 255, 0.8) 65%, #ffffff 80%),
+                /* Top left warm dark glow */
+                radial-gradient(circle at 0% 0%, rgba(38, 20, 15, 0.9) 0%, transparent 40%),
+                /* Top right dark glow */
+                radial-gradient(circle at 100% 0%, rgba(20, 25, 35, 0.9) 0%, transparent 40%),
+                /* Main blue diagonal gradient */
+                linear-gradient(135deg, #1f2533 0%, #4a678a 40%, #8ba8c4 70%);
+        }
         /* Role card selection */
         .role-card {
             cursor: pointer;
@@ -70,8 +83,7 @@
     <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
 
         <!-- Left Panel -->
-        <div class="rounded-[2.5rem] p-10 flex flex-col justify-center relative overflow-hidden h-full min-h-[600px]"
-            style="background: radial-gradient(ellipse at 0% 0%,#57A507 0%, #0b0c10 55%);">
+        <div class="rounded-[2.5rem] p-10 flex flex-col justify-center relative overflow-hidden h-full min-h-[600px] bg-gradient-complex">
 
             <!-- Decorative rings -->
             <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full border border-green-500/10"></div>
@@ -81,10 +93,8 @@
 
                 <!-- Logo -->
                 <div class="flex items-center justify-center gap-2.5 mb-10">
-                    <div class="w-9 h-9 rounded-full bg-green-500 relative flex items-center justify-center overflow-hidden">
-                        <div class="absolute w-[130%] border-t-[3.5px] border-black transform -rotate-45"></div>
-                    </div>
-                    <span class="text-3xl font-bold tracking-widest text-white">Zipp.</span>
+                    
+                    <span class="text-4xl text-lg md:text-3xl font-bold tracking-tight">Zipp.</span>
                 </div>
 
                 <!-- Heading -->
@@ -95,45 +105,45 @@
                 <div class="flex flex-col gap-3">
 
                     <!-- Step 1 — Active -->
-                    <div class="flex items-start gap-4 bg-white/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
-                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-green-500/10 border border-green-500/25 flex items-center justify-center mt-0.5">
+                    <div class="flex items-start gap-4 bg-black/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-black border border-green-500/25 flex items-center justify-center mt-0.5">
                             <svg class="w-4 h-4" fill="none" stroke="#1fbc55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-semibold text-white mb-0.5">Sign up your account</p>
-                            <p class="text-[0.72rem] text-white/40 leading-relaxed">Choose your role and fill in your details.</p>
+                            <p class="text-sm font-semibold text-black mb-0.5">Sign up your account</p>
+                            <p class="text-[0.72rem] text-black/45 leading-relaxed">Choose your role and fill in your details.</p>
                         </div>
-                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-green-400 bg-green-500/10 border border-green-500/20 rounded-full px-2.5 py-0.5">01</span>
+                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-black bg-green-500/10 border border-green-500/20 rounded-full px-2.5 py-0.5">01</span>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="flex items-start gap-4 bg-white/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
-                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mt-0.5">
+                    <div class="flex items-start gap-4 bg-black/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-black border border-white/10 flex items-center justify-center mt-0.5">
                             <svg class="w-4 h-4" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-semibold text-white/70 mb-0.5">Verify your identity</p>
-                            <p class="text-[0.72rem] text-white/35 leading-relaxed">Quick verification to keep everyone safe.</p>
+                            <p class="text-sm font-semibold text-black/70 mb-0.5">Verify your identity</p>
+                            <p class="text-[0.72rem] text-black/35 leading-relaxed">Quick verification to keep everyone safe.</p>
                         </div>
-                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-white/30 bg-white/5 border border-white/8 rounded-full px-2.5 py-0.5">02</span>
+                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-black bg-white/5 border border-white/8 rounded-full px-2.5 py-0.5">02</span>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="flex items-start gap-4 bg-white/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
-                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mt-0.5">
+                    <div class="flex items-start gap-4 bg-black/[0.04] border border-white/[0.07] rounded-[1.25rem] p-4">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-black border border-white/10 flex items-center justify-center mt-0.5">
                             <svg class="w-4 h-4" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-semibold text-white/70 mb-0.5">Start riding with Zipp</p>
-                            <p class="text-[0.72rem] text-white/35 leading-relaxed">You're all set — enjoy the ride.</p>
+                            <p class="text-sm font-semibold text-black/70 mb-0.5">Start riding with Zipp</p>
+                            <p class="text-[0.72rem] text-black/35 leading-relaxed">You're all set — enjoy the ride.</p>
                         </div>
-                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-white/30 bg-white/5 border border-white/8 rounded-full px-2.5 py-0.5">03</span>
+                        <span class="flex-shrink-0 self-center text-[0.65rem] font-semibold text-black bg-white/5 border border-white/8 rounded-full px-2.5 py-0.5">03</span>
                     </div>
 
                 </div>
@@ -143,7 +153,7 @@
                     <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#1fbc55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
-                    <p class="text-[0.7rem] text-white/35">Your data is encrypted and never shared.</p>
+                    <p class="text-[0.7rem] text-black/35">Your data is encrypted and never shared.</p>
                 </div>
 
             </div>
@@ -186,16 +196,16 @@
                 <form class="space-y-5" id="login-form">
                     <div>
                         <label class="block text-xs font-medium text-gray-300 mb-2">Email Address</label>
-                        <input type="email" id="email" value="Sarahw12@mail.com"
+                        <input type="email" id="email" placeholder="Enter email"
                             class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 transition text-sm text-gray-300">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-300 mb-2">Password</label>
                         <div class="relative">
-                            <input type="password" id="password" value="Sarahw12@mail.com"
+                            <input type="password" id="password" placeholder="Enter password" 
                                 class="w-full bg-[#131418] border border-transparent rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 transition text-sm text-gray-300 pr-10">
-                            <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                 </svg>
@@ -215,7 +225,7 @@
                         <a href="#" class="text-xs text-gray-400 hover:text-white transition">Forget Password?</a>
                     </div>
                     <div class="pt-2">
-                        <button type="submit" class="w-full bg-[#1fbc55] hover:bg-green-600 text-black font-semibold rounded-xl py-3.5 transition duration-300 shadow-[0_0_15px_rgba(31,188,85,0.2)] mt-2">
+                        <button type="submit" class=" w-full bg-[#1fbc55] hover:bg-green-600 text-black font-semibold rounded-xl py-3.5 transition duration-300 shadow-[0_0_15px_rgba(31,188,85,0.2)] mt-2">
                             Sign in
                         </button>
                     </div>
@@ -330,6 +340,8 @@
 </body>
 
 <script>
+
+    showSuccess("warm hug buddy🫂")
     const {z} = window.Zod 
 
     let selectedRole = null;
@@ -348,6 +360,32 @@
             }
         });
     }
+
+    const passwordInput = document.getElementById("password");
+    const toggleBtn = document.getElementById("togglePassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    toggleBtn.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+
+        // toggle input type
+        passwordInput.type = isPassword ? "text" : "password";
+
+        // change icon
+        eyeIcon.innerHTML = isPassword
+            ? `
+            <!-- eye-slash -->
+            <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M3 3l18 18M10.584 10.587a3 3 0 004.243 4.243M9.88 4.24A9.956 9.956 0 0112 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639a10.05 10.05 0 01-4.293 5.036M6.53 6.53A9.953 9.953 0 002.036 12.322a1.012 1.012 0 000 .639C3.423 16.49 7.36 19.5 12 19.5c1.61 0 3.13-.338 4.53-.95"/>
+            `
+            : `
+            <!-- eye -->
+            <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0Z"/>
+            `;
+    });
 
     // ── ROLE SELECTION ─────────────────────────────────────────
     function selectRole(role) {
@@ -371,15 +409,42 @@
     });
 
     // ── LOGIN ──────────────────────────────────────────────────
-    document.getElementById('login-form').addEventListener('submit', function (e) {
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
+
         if (!email || !password) {
             showError("Invalid email or password")
             return;
         }
-        showSuccess("no worries buddy")
+        try{
+
+            const res = await fetch('/auth/login',{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email,
+                    password
+                })
+            })
+            
+            const result = await res.json()
+
+            if(!result.success){
+                showError(result.message)
+                return;
+            }
+
+            showSuccess("no worries buddy")
+
+            window.location.href = result.redirect
+        }catch(err){
+            showError(err.message)
+        }
+        
     });
 
     const registerSchema = z.object({
@@ -412,7 +477,10 @@
         }
 
         const frontEndValidation = registerSchema.safeParse(data)
-
+        if(!userLocation){
+            showError("allow Location access")
+            return;
+        }
         if(!frontEndValidation.success){
 
             const formattedMessage = Object.values(frontEndValidation.error.flatten().fieldErrors)
@@ -444,6 +512,9 @@
             }
 
             showSuccess("നമസ്കാരം 🙏")
+
+            sessionStorage.setItem("token",result.token)
+            
             window.location.href = result.redirect
 
         }catch(err){

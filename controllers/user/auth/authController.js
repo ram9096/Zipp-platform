@@ -1,8 +1,8 @@
 import { authenticateUser, createUser } from "../../../services/user/authService.js"
 import { logger } from "../../../utils/logger.js"
-import { generateToken } from "../../../utils/jwt.js"
+import { generateOtpToken, generateToken } from "../../../utils/jwt.js"
 import { registerSchema } from "../../../validation/userValidate.js"
-import { sentOtp } from "../../../services/user/otpService.js"
+import { sentOtp, verifyOtp } from "../../../services/user/otpService.js"
 
 export const getLoginPage = (req,res)=>{
     res.render('user/auth/login')
@@ -48,7 +48,7 @@ export const loginUser = async (req,res)=>{
 
         return res.status(200).json({
             success:true,
-            redirect:"/home",
+            redirect:"/auth/home",
             message:authenticate.message
         })
 
@@ -80,10 +80,10 @@ export const registerUser = async (req,res)=>{
         // DATA VALIDATION 
 
         const validation = registerSchema.safeParse(data)
-
+        
         if(!validation.success){
             
-            const formattedMessage = Object.values(frontEndValidation.error.flatten().fieldErrors)
+            const formattedMessage = Object.values(validation.error.flatten().fieldErrors)
                 .flat()
                 .join(", ");
             return res.status(400).json({
@@ -104,16 +104,36 @@ export const registerUser = async (req,res)=>{
             })
         }
 
-        await sentOtp(userCreation.email,userCreation.userId)
+        const otpSendingProgress = await sentOtp(userCreation.email)
+
+        if(!otpSendingProgress.success){
+
+            return res.status(500).json({
+                success:false,
+                message:otpSendingProgress.message || "Failed to send otp"
+            })
+        }
+
+        //OTP TOKEN FOR PROTECTING THE ROUTE
+        
+        const token = generateOtpToken(userCreation.email)
+
+        res.cookie("otpToken",token,{
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict"
+        })
 
         return res.status(200).json({
             success:true,
+            token:otpSendingProgress.tempToken,
+            email:data.email,
             redirect:"/auth/otp"
         })
         
     }catch(error){
 
-        logger.error("LOGIN_ERROR", {
+        logger.error("REGISTER_ERROR", {
             message: error.message,
             stack: process.env.NODE_ENV === "development"? error.stack : undefined,
             route: req.originalUrl,
@@ -131,4 +151,49 @@ export const registerUser = async (req,res)=>{
 
 export const getOtpPage = (req,res)=>{
     return res.render('User/auth/otp')
+}
+
+
+export const verifyUserOtp = async (req,res)=>{
+
+    try{
+
+        //GETTING THE OTP
+
+        const { token,otp } = req.body
+
+        if(!token||!otp){
+
+            return res.status(400).json({
+                success:false,
+                message:"Something went wrong try again"
+            })
+        }
+
+        //VERIFYING IT
+
+        const result = await verifyOtp(token,otp)
+
+        return res.status(result.success ? 200 : 400 ).json(result)
+
+    }catch(error){
+
+        logger.error("OTP_VERFICATION_ERROR", {
+            message: error.message,
+            stack: process.env.NODE_ENV === "development"? error.stack : undefined,
+            route: req.originalUrl,
+            method: req.method,
+            time: new Date().toISOString()
+        });
+        
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+
+    }
+}
+
+export const getHomePage = (req,res)=>{
+    return res.render('user/auth/home')
 }

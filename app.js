@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import authRoutes from "./routes/user/authRoutes.js"
 import { connectDB } from "./config/database.js"
+import cookieParser from "cookie-parser"
 dotenv.config()
 
 let app = express()
@@ -16,6 +17,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 app.set("view engine","ejs")
 
+app.use(cookieParser())
 app.use('/auth',authRoutes)
 
 app.listen(process.env.PORT,()=>{

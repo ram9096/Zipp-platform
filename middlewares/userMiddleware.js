@@ -1,17 +1,14 @@
 import jwt from "jsonwebtoken"
-import { logger } from "../utils/logger"
+import { logger } from "../utils/logger.js"
 
 export const authMiddleware = (req,res,next)=>{
     try{
         
         //TOKEN CHECKING
-        const token = req.cookies.accessToken
-
+        const token = req.cookies?.accessToken
+        
         if(!token){
-            return res.status(401).json({
-                success:false,
-                message:"Access token missing"
-            })
+            return res.redirect("/auth/login")
         }
 
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -23,7 +20,7 @@ export const authMiddleware = (req,res,next)=>{
     }catch(err){
 
         //ERROR HANDELING
-        logger.error("AUTH_LOGIN_FAILED",{
+        logger.error("AUTH_PROTECTION_FAILED",{
 
             message:err.message,
             route:req.originalUrl,
@@ -31,11 +28,37 @@ export const authMiddleware = (req,res,next)=>{
             stack: process.env.NODE_ENV === "development" ? err.stack : undefined  
 
         })
-        return res.status(401).json({
 
-            success:false,
-            message:"Invalid or expired token"
-            
+        return res.redirect("/auth/login")
+    }
+}
+
+export const otpMiddleware = (req,res,next)=>{
+
+    try{
+        
+        //TOKEN CHECKING
+        const token = req.cookies?.otpToken
+        
+        if(!token){
+            return res.redirect("/auth/login")
+        }
+
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+        next()
+
+    }catch(err){
+
+        //ERROR HANDELING
+        logger.error("OTP_PROTECTION_FAILED",{
+
+            message:err.message,
+            route:req.originalUrl,
+            method:req.method,
+            stack: process.env.NODE_ENV === "development" ? err.stack : undefined  
+
         })
+        return res.redirect("/auth/login")
     }
 }

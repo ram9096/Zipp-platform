@@ -1,5 +1,6 @@
 import express from "express"
-import { getLoginPage, getOtpPage, loginUser, registerUser } from "../../controllers/user/auth/authController.js"
+import { getHomePage, getLoginPage, getOtpPage, loginUser, registerUser, verifyUserOtp } from "../../controllers/user/auth/authController.js"
+import { authMiddleware, otpMiddleware } from "../../middlewares/userMiddleware.js"
 
 let router = express.Router()
 
@@ -12,5 +13,13 @@ router.post('/login',loginUser)
 
 router.post('/register',registerUser)
 
-router.get('/otp',getOtpPage)
+//HOME ROUTES
+
+router.get('/home',authMiddleware,getHomePage) 
+
+//OTP ROUTES
+
+router.get('/otp',otpMiddleware,getOtpPage)
+router.post('/otp',verifyUserOtp)
+
 export default router
